@@ -99,12 +99,19 @@ defmodule LiveviewCursorsWeb.Cursors do
         />
       </form>
       <div id="ping-container" class="fixed bottom-2 text-sm text-gray-400 p-2" phx-update="ignore">
-        <span>Latency:</span>
         <span id="ping" phx-hook="Ping">
           <%= @ping %>
         </span>
         <span>
-          from <%= System.get_env("FLY_REGION") || "localhost" %>
+          <%= if(System.get_env("FLY_REGION")) do %>
+            from
+            <img
+              class="inline w-3 h-3 align-baseline"
+              src={"https://fly.io/ui/images/#{System.get_env("FLY_REGION")}.svg"}
+            />
+          <% else %>
+            from localhost
+          <% end %>
         </span>
       </div>
       <ul class="list-none" id="cursors" phx-hook="TrackClientCursor">
