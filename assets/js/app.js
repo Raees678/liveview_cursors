@@ -31,12 +31,29 @@ let Hooks = {};
 
 Hooks.TrackClientCursor = {
   mounted() {
-    console.log("[TrackClientCursor] mounted");
     document.addEventListener("mousemove", (e) => {
       const x = (e.pageX / window.innerWidth) * 100; // in %
       const y = (e.pageY / window.innerHeight) * 100; // in %
       this.pushEvent("cursor-move", { x, y });
     });
+  },
+};
+
+Hooks.Ping = {
+  mounted() {
+    this.time = Date.now();
+    this.pushEvent("ping", {}, this.recievedPong.bind(this));
+  },
+
+  recievedPong() {
+    const time = Date.now() - this.time;
+
+    document.getElementById("ping").innerText = time + "ms";
+
+    setTimeout(() => {
+      this.time = Date.now();
+      this.pushEvent("ping", {}, this.recievedPong.bind(this));
+    }, 1000);
   },
 };
 

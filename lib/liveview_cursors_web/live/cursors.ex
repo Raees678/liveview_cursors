@@ -25,6 +25,7 @@ defmodule LiveviewCursorsWeb.Cursors do
       |> assign(:user, user)
       |> assign(:users, initial_users)
       |> assign(:socket_id, socket.id)
+      |> assign(:ping, 0)
 
     {:ok, updated}
   end
@@ -45,6 +46,10 @@ defmodule LiveviewCursorsWeb.Cursors do
   def handle_event("send_message", %{"msg" => msg}, socket) do
     updatePresence(socket.id, %{msg: msg})
     {:noreply, socket}
+  end
+
+  def handle_event("ping", %{}, socket) do
+    {:reply, %{}, socket}
   end
 
   def updatePresence(key, payload) do
@@ -93,6 +98,15 @@ defmodule LiveviewCursorsWeb.Cursors do
           value="Change"
         />
       </form>
+      <div id="ping-container" class="fixed bottom-2 text-sm text-gray-400 p-2" phx-update="ignore">
+        <span>Latency:</span>
+        <span id="ping" phx-hook="Ping">
+          <%= @ping %>
+        </span>
+        <span>
+          from <%= System.get_env("FLY_REGION") || "localhost" %>
+        </span>
+      </div>
       <ul class="list-none" id="cursors" phx-hook="TrackClientCursor">
         <%= for user <- @users do %>
           <% color = getHSL(user.name) %>
