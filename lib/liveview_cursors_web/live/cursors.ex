@@ -110,7 +110,7 @@ defmodule LiveviewCursorsWeb.Cursors do
               src={"https://fly.io/ui/images/#{System.get_env("FLY_REGION")}.svg"}
             />
           <% else %>
-            from localhost
+            from <%= Node.self() %>
           <% end %>
         </span>
       </div>
