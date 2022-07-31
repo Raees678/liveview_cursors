@@ -37,9 +37,7 @@ defmodule LiveviewCursorsWeb.Cursors do
   def handle_event("cursor-move", %{"x" => x, "y" => y}, socket) do
     key = socket.id
     payload = %{x: x, y: y}
-
     updatePresence(key, payload)
-
     {:noreply, socket}
   end
 
@@ -98,8 +96,8 @@ defmodule LiveviewCursorsWeb.Cursors do
           value="Change"
         />
       </form>
-      <div id="ping-container" class="fixed bottom-2 text-sm text-gray-400 p-2" phx-update="ignore">
-        <span id="ping" phx-hook="Ping">
+      <div id="ping-container" class="fixed bottom-2 text-sm text-gray-400 p-2">
+        <span id="ping" phx-hook="Ping" phx-update="ignore">
           <%= @ping %>
         </span>
         <span>
