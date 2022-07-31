@@ -7,6 +7,8 @@ defmodule LiveviewCursors.Application do
 
   @impl true
   def start(_type, _args) do
+    topologies = Application.get_env(:libcluster, :topologies) || []
+
     children = [
       # Start the Telemetry supervisor
       LiveviewCursorsWeb.Telemetry,
@@ -16,7 +18,9 @@ defmodule LiveviewCursors.Application do
       LiveviewCursorsWeb.Endpoint,
       # Start a worker by calling: LiveviewCursors.Worker.start_link(arg)
       # {LiveviewCursors.Worker, arg}
-      LiveviewCursorsWeb.Presence
+      LiveviewCursorsWeb.Presence,
+      # libcluster setup
+      {Cluster.Supervisor, [topologies, [name: LiveviewCursors.ClusterSupervisor]]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
