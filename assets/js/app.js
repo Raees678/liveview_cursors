@@ -55,6 +55,10 @@ Hooks.Ping = {
       this.pushEvent("ping", {}, this.recievedPong.bind(this));
     }, 1000);
   },
+
+  disconnected() {
+    document.getElementById("ping-container").style.display = "none";
+  },
 };
 
 let liveSocket = new LiveSocket("/live", Socket, {

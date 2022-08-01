@@ -96,21 +96,28 @@ defmodule LiveviewCursorsWeb.Cursors do
           value="Change"
         />
       </form>
-      <div id="ping-container" class="fixed bottom-2 text-sm text-gray-400 p-2">
-        <span id="ping" phx-hook="Ping" phx-update="ignore">
-          <%= @ping %>
-        </span>
-        <span>
-          <%= if(System.get_env("FLY_REGION")) do %>
-            from
-            <img
-              class="inline w-3 h-3 align-baseline"
-              src={"https://fly.io/ui/images/#{System.get_env("FLY_REGION")}.svg"}
-            />
-          <% else %>
-            from <%= Node.self() %>
-          <% end %>
-        </span>
+      <div id="ping-container" class="fixed bottom-2 text-sm text-gray-400 p-2 flex items-baseline">
+        <div class="flex items-middle p-2">
+          <div class="h-2 w-2 rounded-full bg-green-400 opacity-75 absolute inline animate-ping">
+          </div>
+          <div class="h-2 w-2 rounded-full bg-green-500 relative inline"></div>
+        </div>
+        <div>
+          <span id="ping" phx-hook="Ping" phx-update="ignore">
+            <%= @ping %>
+          </span>
+          <span>
+            <%= if(System.get_env("FLY_REGION")) do %>
+              from
+              <img
+                class="inline w-3 h-3 align-baseline"
+                src={"https://fly.io/ui/images/#{System.get_env("FLY_REGION")}.svg"}
+              />
+            <% else %>
+              from <%= Node.self() %>
+            <% end %>
+          </span>
+        </div>
       </div>
       <ul class="list-none" id="cursors" phx-hook="TrackClientCursor">
         <%= for user <- @users do %>
