@@ -37,6 +37,16 @@ Hooks.TrackClientCursor = {
       this.pushEvent("cursor-move", { x, y });
     });
   },
+
+  reconnected() {
+    if (!document.getEventListeners("mousemove")) {
+      document.addEventListener("mousemove", (e) => {
+        const x = (e.pageX / window.innerWidth) * 100; // in %
+        const y = (e.pageY / window.innerHeight) * 100; // in %
+        this.pushEvent("cursor-move", { x, y });
+      });
+    }
+  },
 };
 
 Hooks.Ping = {
@@ -45,11 +55,14 @@ Hooks.Ping = {
     this.pushEvent("ping", {}, this.recievedPong.bind(this));
   },
 
+  reconnected() {
+    this.time = Date.now();
+    this.pushEvent("ping", {}, this.recievedPong.bind(this));
+  },
+
   recievedPong() {
     const time = Date.now() - this.time;
-
     document.getElementById("ping").innerText = time + "ms";
-
     setTimeout(() => {
       this.time = Date.now();
       this.pushEvent("ping", {}, this.recievedPong.bind(this));
