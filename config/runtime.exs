@@ -1,10 +1,14 @@
 import Config
 
+push_api_key =
+  System.get_env("APPSIGNAL_PUSH_API_KEY") ||
+    raise "environment variable APPSIGNAL_PUSH_API_KEY is not set"
+
 config :appsignal, :config,
   otp_app: :liveview_cursors,
   name: "liveview_cursors",
-  push_api_key: System.get_env("APPSIGNAL_PUSH_API_KEY"),
-  env: Mix.env()
+  push_api_key: push_api_key,
+  env: config_env()
 
 # config/runtime.exs is executed for all environments, including
 # during releases. It is executed after compilation and before the
