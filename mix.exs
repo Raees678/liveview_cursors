@@ -47,7 +47,9 @@ defmodule LiveviewCursors.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
-      {:libcluster, "~> 3.3"}
+      {:libcluster, "~> 3.3"},
+      {:appsignal, "~> 2.0"},
+      {:appsignal_phoenix, "~> 2.0"}
     ]
   end
 
