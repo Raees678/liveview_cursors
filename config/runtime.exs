@@ -1,5 +1,11 @@
 import Config
 
+config :appsignal, :config,
+  otp_app: :liveview_cursors,
+  name: "liveview_cursors",
+  push_api_key: System.get_env("APPSIGNAL_PUSH_API_KEY"),
+  env: Mix.env()
+
 # config/runtime.exs is executed for all environments, including
 # during releases. It is executed after compilation and before the
 # system starts, so it is typically used to load production configuration
